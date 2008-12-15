@@ -1,7 +1,13 @@
+require 'rake/rdoctask'
 require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
 
 require 'spec/spec_helper'
+
+Rake::RDocTask.new(:doc) do |t|
+  t.rdoc_dir   = 'doc'
+  t.rdoc_files = FileList['lib/**/*.rb']
+end
 
 Spec::Rake::SpecTask.new do |t|
   t.libs = %w{ lib }
