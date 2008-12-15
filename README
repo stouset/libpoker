@@ -1,0 +1,19 @@
+= libpoker
+
+Libpoker is a Ruby-based poker simulation library.
+
+== Usage
+
+  include Poker
+
+  game = Game.new :table   => Table.new(6),
+                  :ruleset => :hold_em,
+                  :limit   => :no_limit,
+                  :blinds  => [25, 50]
+  
+  game.seat Player::Human.new('Player 1', 1000)
+  game.seat Player::Human.new('Player 2', 1000)
+  
+  game.play
+  
+  puts game.winner.name

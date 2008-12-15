@@ -5,8 +5,11 @@ require 'spec/rake/verify_rcov'
 require 'spec/spec_helper'
 
 Rake::RDocTask.new(:doc) do |t|
+  t.main = 'README'
+  
   t.rdoc_dir   = 'doc'
   t.rdoc_files = FileList['lib/**/*.rb']
+  t.rdoc_files.include %w{ README }
 end
 
 Spec::Rake::SpecTask.new do |t|
