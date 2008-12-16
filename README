@@ -2,18 +2,58 @@
 
 Libpoker is a Ruby-based poker simulation library.
 
+== Networking
+
+My goal is that libpoker should be able to work over a network, with a
+libpoker server serving to various poker clients, and for players to be able
+to connect to a game remotely, and play as if the remote end exposed the
+libpoker interface.
+
+It should also be threadable, so a game can be running in one thread, and
+clients can connect remotely or locally to the game while it is running.
+
 == Usage
 
-  include Poker
+=== Standard
 
+  include Poker
+  
   game = Game.new :table   => Table.new(6),
                   :ruleset => :hold_em,
                   :limit   => :no_limit,
                   :blinds  => [25, 50]
   
+  game.play # forks the game into the background
+  
   game.seat Player::Human.new('Player 1', 1000)
   game.seat Player::Human.new('Player 2', 1000)
   
+  game.stop # stops the game at the end of the current hand
+    
+=== Poker Server
+
+  include Poker
+  
+  game = Game.new :table   => Table.new(6),
+                  :ruleset => :hold_em,
+                  :limit   => :no_limit,
+                  :blinds  => [25, 50],
+                  :host    => '127.0.0.1',
+                  :port    => 4220
+  
   game.play
   
-  puts game.winner.name
+=== Poker Client
+
+  include Poker
+  
+  game = Game.remote :host => '127.0.0.1',
+                     :port => 4220
+  
+  game.seat Player::Human.new('Player 1', 1000)
+
+=== Player API
+
+One concern is that players should not be allowed to see too much information
+about their opponents' hands. Somehow, the game object needs to proxy or
+sanitize Hand objects before handing them off to the player.
