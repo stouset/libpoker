@@ -3,15 +3,15 @@ module Poker
     class HoldEm
       include Poker::Rules
       
-      round :preflop, [ :deal ] * 2
-      round :flop,    [ :community ] * 3
-      round :turn,    [ :community ]
-      round :river,   [ :community ]
+      street :preflop, [ :deal ] * 2
+      street :flop,    [ :community ] * 3
+      street :turn,    [ :community ]
+      street :river,   [ :community ]
       
       before :preflop   => :post,
+             :turn      => :raise_limits
       
       burn!
-      limits
       order :button
     end
   end
