@@ -39,7 +39,7 @@ clients can connect remotely or locally to the game while it is running.
                   :limit   => :no_limit,
                   :blinds  => [25, 50],
                   :host    => '127.0.0.1',
-                  :port    => 4220
+                  :port    => 4210
   
   game.play
   
@@ -48,7 +48,7 @@ clients can connect remotely or locally to the game while it is running.
   include Poker
   
   game = Game.remote :host => '127.0.0.1',
-                     :port => 4220
+                     :port => 4210
   
   game.seat Player::Human.new('Player 1', 1000)
 
@@ -57,3 +57,7 @@ clients can connect remotely or locally to the game while it is running.
 One concern is that players should not be allowed to see too much information
 about their opponents' hands. Somehow, the game object needs to proxy or
 sanitize Hand objects before handing them off to the player.
+
+A player must simply respond to the +act+ method, accepting the +game+ as a
+parameter, and return either :fold, :call (which suffices as a check, when no
+bets have been made), or the amount to bet.
