@@ -4,6 +4,8 @@ require 'spec/rake/verify_rcov'
 
 require 'spec/spec_tasks'
 
+task :default => :doc
+
 Rake::RDocTask.new(:doc) do |t|
   t.main = 'README'
   
