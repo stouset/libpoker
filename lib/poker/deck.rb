@@ -2,7 +2,10 @@ require 'core_ext/array/shuffle'
 
 module Poker
   #
-  # A representation of a standard 52-card deck of poker cards.
+  # A representation of a standard 52-card deck of poker cards. Cards are
+  # lightweight, represented simply by a String containing the traditional
+  # card nomenclature. The Ace of spades is represented by 'As', and the seven
+  # of clubs is represented by '7c'.
   #
   class Deck
     RANKS = %w{ A K Q J T 9 8 7 6 5 4 3 2 }
