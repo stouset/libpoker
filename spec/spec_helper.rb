@@ -1,5 +1,8 @@
-class Spec::Rake::SpecTask
-  def read_opts(filename)
-    IO.readlines(filename).map {|l| l.chomp.split ' ' }.flatten
-  end
-end
+$: << File.dirname(__FILE__) + '/../lib'
+
+require 'rubygems'
+require 'spec'
+
+require 'poker'
+
+include Poker

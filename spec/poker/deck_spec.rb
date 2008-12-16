@@ -1,4 +1,4 @@
-require 'poker/deck'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Poker::Deck do
   describe 'unshuffled' do
@@ -7,7 +7,7 @@ describe Poker::Deck do
     end
     
     it 'should contain all the cards in order' do
-      @deck.cards.should == Poker::Deck::CARDS
+      @deck.cards.should == Deck::CARDS
     end
     
     it 'should randomize its cards when shuffled' do
@@ -18,12 +18,12 @@ describe Poker::Deck do
   
   describe 'shuffled' do
     before(:each) do
-      @deck = Poker::Deck.shuffled
+      @deck = Deck.shuffled
     end
     
     it 'should not be in order' do
-      @deck.cards.should_not  == Poker::Deck::CARDS
-      @deck.cards.sort.should == Poker::Deck::CARDS.sort
+      @deck.cards.should_not  == Deck::CARDS
+      @deck.cards.sort.should == Deck::CARDS.sort
     end
     
     it 'should contain all 52 cards' do
@@ -49,7 +49,7 @@ describe Poker::Deck do
   
   describe 'after dealing' do
     before(:each) do
-      @deck = Poker::Deck.shuffled
+      @deck = Deck.shuffled
       @deck.deal
     end
     
@@ -60,7 +60,7 @@ describe Poker::Deck do
   
   describe 'when empty' do
     before(:each) do
-      @deck = Poker::Deck.shuffled
+      @deck = Deck.shuffled
       @deck.deal until @deck.empty?
     end
     

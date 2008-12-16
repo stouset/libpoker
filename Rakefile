@@ -2,7 +2,7 @@ require 'rake/rdoctask'
 require 'spec/rake/spectask'
 require 'spec/rake/verify_rcov'
 
-require 'spec/spec_helper'
+require 'spec/spec_tasks'
 
 Rake::RDocTask.new(:doc) do |t|
   t.main = 'README'

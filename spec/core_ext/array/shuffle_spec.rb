@@ -1,4 +1,4 @@
-require 'core_ext/array/shuffle'
+require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Array do
   before(:each) do
@@ -15,7 +15,7 @@ describe Array do
     end
   end
   
-  describe 'when shuffle!' do
+  describe 'when shuffled!' do
     # technically internal functionality, but this spec ensures that
     # Array#shuffle! should abide by all the same specs as Array#shuffle
     it 'should rely on Array#shuffle' do
