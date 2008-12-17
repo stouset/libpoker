@@ -77,6 +77,7 @@ module Poker
     #
     def run
       loop do
+        # TODO: game logic
         sleep 5
           
         # allow code to run between each hand dealt
