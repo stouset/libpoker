@@ -23,6 +23,9 @@ module Poker
       self.limit   = options[:limit]
       self.blinds  = options[:blinds]
       
+      # preallocate the state flag
+      self.flag = Flag.new
+      
       # pass self for further initialization
       yield(self) if block_given?
     end
@@ -55,7 +58,7 @@ module Poker
     # Schedules the game to be terminated at the end of the current hand.
     #
     def stop
-      
+      self.flag.stopped!
     end
     
     #
@@ -71,7 +74,33 @@ module Poker
     
     protected
     
+    #
+    # Simple flag-state class. We freeze the Game when begun, so we need a
+    # class capable of encapsulating a state flag that lets us know when to
+    # stop the game.
+    #
+    #   f = Flag.new
+    #   f.foo? #=> false
+    #   f.bar? #=> false
+    #   f.foo!
+    #   f.foo? #=> true
+    #   f.bar? #=> false
+    #   f.bar!
+    #   f.foo? #=> false
+    #   f.bar? #=> true
+    #
+    Flag = Struct.new(:value) do
+      def method_missing(name, *args)
+        case name.to_s
+          when %r{ (.*)!$  }x then self.value =  $1.to_sym
+          when %r{ (.*)\?$ }x then self.value == $1.to_sym
+          else                     super
+        end
+      end
+    end
+    
     attr_accessor :thread
+    attr_accessor :flag
     
     #
     # Synchronizes the block using a semaphore identified by +name+.
@@ -86,7 +115,7 @@ module Poker
     # or in the intermission block.
     #
     def run
-      loop do
+      until self.flag.stopped?
         # TODO: game logic
         sleep 5
           
