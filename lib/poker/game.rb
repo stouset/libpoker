@@ -112,15 +112,15 @@ module Poker
     
     #
     # The main game loop. Loops until the game is stopped in the main thread
-    # or in the intermission block.
+    # or in the callback block.
     #
-    def run
+    def run(&callback)
       until self.flag.stopped?
         # TODO: game logic
         sleep 5
           
         # allow code to run between each hand dealt
-        yield(self) if block_given?
+        callback.call(self) if block_given?
       end
     end
   end
