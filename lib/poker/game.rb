@@ -120,7 +120,7 @@ module Poker
         sleep 5
           
         # allow code to run between each hand dealt
-        callback.call(self) if block_given?
+        callback.call(self) if callback
       end
     end
   end
