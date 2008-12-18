@@ -29,10 +29,23 @@ namespace :spec do
     t.threshold = 100
   end
   
+  desc 'Generate specdocs'
   Spec::Rake::SpecTask.new(:doc) do |t|
     t.libs = %w{ lib }
     
     t.spec_files = FileList['spec/**/*_spec.rb']
     t.spec_opts  = %w{ --colour --format nested --dry-run }
+  end
+end
+
+namespace :zen do
+  desc 'Flog the code until it hurts'
+  task :flog do 
+     system %{ flog -m -n lib }
+  end
+  
+  desc 'Flay the code until it screams'
+  task :flay do
+    system %{ flay `find lib -name "*.rb"` 2>/dev/null }
   end
 end
