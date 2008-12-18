@@ -38,7 +38,7 @@ module Poker
     #
     # Raises a ThreadError if the game has already been started.
     #
-    def play(&intermission)
+    def play(&callback)
       raise ThreadError if started?
       
       synchronize(:thread) do
@@ -49,7 +49,7 @@ module Poker
           # TODO: should ruleset, limit, and blinds be frozen too?
           synchronize(:thread) { self.freeze }
           
-          run(&intermission)
+          run(&callback)
         end
       end
     end
