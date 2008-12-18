@@ -35,16 +35,16 @@ module Poker
     #
     # Raises a ThreadError if the game has already been started.
     #
-    def play!(&intermission)
+    def play(&intermission)
       raise ThreadError if started?
       
-      synchronize do
+      synchronize(:thread) do
         self.thread = Thread.new do
           # wait on the thread assignment before freezing, and freeze because
           # we don't want to allow the game to change mid-play
           #
           # TODO: should ruleset, limit, and blinds be frozen too?
-          synchronize { self.freeze }
+          synchronize(:thread) { self.freeze }
           
           run(&intermission)
         end
@@ -52,10 +52,21 @@ module Poker
     end
     
     #
-    # Returns true if the game has been started (by calling play).
+    # Schedules the game to be terminated at the end of the current hand.
+    #
+    def stop
+      
+    end
+    
+    #
+    # Returns true if the game has been started (by calling play). Will still
+    # return true once the game has been stopped. Games may not be re-started
+    # due to being frozen once begun.
+    #
+    # NOTE: Is there any way around that?
     #
     def started?
-      not synchronize { self.thread }.nil?
+      not synchronize(:thread) { self.thread }.nil?
     end
     
     protected
@@ -63,12 +74,11 @@ module Poker
     attr_accessor :thread
     
     #
-    # Synchronizes the block using a semaphore. Any access of self.thread,
-    # whether assignment or retrieving must be protected by a semaphore.
+    # Synchronizes the block using a semaphore identified by +name+.
     #
-    def synchronize(&block)
-      @semaphore ||= Mutex.new
-      @semaphore.synchronize(&block)
+    def synchronize(name, &block)
+      @semaphores ||= Hash.new {|h,k| h[k] = Mutex.new }
+      @semaphores[name.to_sym].synchronize(&block)
     end
     
     #
