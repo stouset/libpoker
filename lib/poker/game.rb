@@ -106,8 +106,8 @@ module Poker
     # Synchronizes the block using a semaphore identified by +name+.
     #
     def synchronize(name, &block)
-      @semaphores ||= Hash.new {|h,k| h[k] = Mutex.new }
-      @semaphores[name.to_sym].synchronize(&block)
+      @semaphores ||= Hash.default { Mutex.new }
+      @semaphores[name].synchronize(&block)
     end
     
     #
