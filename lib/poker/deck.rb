@@ -1,5 +1,3 @@
-require 'core_ext/array/shuffle'
-
 module Poker
   #
   # A representation of a standard 52-card deck of poker cards. Cards are
